@@ -23,12 +23,15 @@ import { PersonStandingIcon } from "lucide-react";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { PasswordInput } from "@/components/ui/password-input";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   email: z.string().email(),
   password: z.string(),
 });
 export default function LoginPage() {
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -37,8 +40,9 @@ export default function LoginPage() {
     },
   });
 
-  const handleSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log("login validation passed", values);
+  const handleSubmit = (data: z.infer<typeof formSchema>) => {
+    console.log("login validation passed", data);
+    router.push("/dashboard");
   };
 
   return (
@@ -82,11 +86,7 @@ export default function LoginPage() {
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="Password"
-                        type="password"
-                        {...field}
-                      />
+                      <PasswordInput placeholder="••••••••" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
